@@ -26,6 +26,11 @@ function person4Home() {
   document.getElementById("person4HomeWorld").innerHTML = home.name;
 }
 
+const personFour = new XMLHttpRequest();
+personFour.addEventListener("load", person4);
+personFour.open("GET", "http://swapi.co/api/people/4/");
+personFour.send();
+
 const personFourHome = new XMLHttpRequest();
 personFourHome.addEventListener("load", person4Home);
 personFourHome.open("GET", "http://swapi.co/api/planets/1/");
@@ -58,71 +63,66 @@ personFourteenSpecies.addEventListener("load", person14Species);
 personFourteenSpecies.open("GET", "http://swapi.co/api/species/1/");
 personFourteenSpecies.send();
 
-function filmList() {
+let filmList = document.getElementById("filmList");
+
+let filmClass = document.createElement("div");
+filmClass.className = "film";
+filmList.appendChild(filmClass);
+
+function filmsList() {
   // console.log('filmsInfo', this.responseText);
   let film = JSON.parse(this.responseText);
-  console.log('filmsList', film.results);
+  // console.log('filmsList', film.results);
   let filmResults = film.results;
   // console.log('film1', film.results[0]);
 
-  let filmList = document.getElementById("filmList");
-
-  let filmClass = document.createElement("div");
-  filmClass.className = "film";
-  filmList.appendChild(filmClass);
-
   let filmTitle = document.createElement("h2");
   filmTitle.className = "filmTitle";
-  filmTitle.innerHTML = "Film Titles";
+  filmTitle.innerHTML = "Films";
   filmClass.appendChild(filmTitle);
 
-  let filmName1 = film.results[0].title;
-  // console.log('film1Title', film.results[0].title);
-  let film1 = document.createElement("li");
-  film1.innerHTML = film.results[0].title;
-  filmClass.appendChild(film1);
-
-  let filmName2 = film.results[1].title;
-  // console.log('film2Title', film.results[1].title);
-  let film2 = document.createElement("li");
-  film2.innerHTML = film.results[1].title;
-  filmClass.appendChild(film2);
-
-  let filmName3 = film.results[2].title;
-  // console.log('film3Title', film.results[2].title);
-  let film3 = document.createElement("li");
-  film3.innerHTML = film.results[2].title;
-  filmClass.appendChild(film3);
-
-  let filmName4 = film.results[3].title;
-  // console.log('film4Title', film.results[3].title);
-  let film4 = document.createElement("li");
-  film4.innerHTML = film.results[3].title;
-  filmClass.appendChild(film4);
-
-  let filmName5 = film.results[4].title;
-  // console.log('film5Title', film.results[4].title);
-  let film5 = document.createElement("li");
-  film5.innerHTML = film.results[4].title;
-  filmClass.appendChild(film5);
-
-  let filmName6 = film.results[5].title;
-  // console.log('film6Title', film.results[5].title);
-  let film6 = document.createElement("li");
-  film6.innerHTML = film.results[5].title;
-  filmClass.appendChild(film6);
-
-  let filmName7 = film.results[6].title;
-  // console.log('film7Title', film.results[6].title);
-  let film7 = document.createElement("li");
-  film7.innerHTML = film.results[6].title;
-  filmClass.appendChild(film7);
+  for(var i = 0; i < filmResults.length; i++) {
+    var filmsList = document.createElement("li");
+    filmsList.innerHTML = filmResults[i].title;
+    filmClass.appendChild(filmsList);
+  }
 
 }
 
 const getFilms = new XMLHttpRequest();
-getFilms.addEventListener("load", filmList);
+getFilms.addEventListener("load", filmsList);
 getFilms.open("GET", "http://swapi.co/api/films/");
 getFilms.send();
+
+function planetsList() {
+  // console.log('filmsInfo', this.responseText);
+  let film = JSON.parse(this.responseText);
+  // console.log('filmsList', film.results);
+  let filmResults = film.results[0];
+  // console.log('planetsInfo', film.results[0].planets);
+  let planetResults = film.results[0];
+
+  let planetsTitle = document.createElement("h3");
+  planetsTitle.innerHTML = "Planets";
+  filmClass.appendChild(planetsTitle);
+
+  let filmPlanets = document.createElement("ul");
+  filmPlanets.className = "filmPlanets";
+  filmClass.appendChild(filmPlanets);
+
+  let planet = document.createElement("li");
+  planet.className = "planet";
+  filmPlanets.appendChild(planet);
+
+  let planetName = document.createElement("h4");
+  planetName.className = "planetName";
+  filmPlanets.appendChild(planetName);
+
+}
+
+const getPlanets = new XMLHttpRequest();
+getPlanets.addEventListener("load", planetsList);
+getPlanets.open("GET", "http://swapi.co/api/films/");
+getPlanets.send();
 
 }(window));
